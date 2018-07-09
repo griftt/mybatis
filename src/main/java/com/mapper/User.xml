@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 mapper代理开发时将namespace指定为mapper接口的全限定名 -->
+<mapper namespace="test">
+	<!-- 在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象 mapper.xml以statement为单位管理sql语句 -->
+	<select id="selectById" parameterType="int" resultType="com.entity.User">
+
+		select * from user where id= #{id}
+	</select>
+	<insert id="in" parameterType="com.entity.User">
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			SELECT last_insert_id()
+		</selectKey>
+		insert into user
+		(username,birthday,sex,address)values(#{username},#{birthday},#{sex},#{address})
+		
+	</insert>
+	<select id="selectByName" parameterType="java.lang.String" resultType="com.entity.User" >
+		select * from user where username like #{username}
+	</select>
+	<!-- <insert id="uuid" parameterType="com.entity.User" >
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			SEELCT UUID()
+		</selectKey>
+	insert into user
+		(id,username,birthday,sex,address)values(#{id},#{username},#{birthday},#{sex},#{address})
+	</insert> -->
+
+
+</mapper>
